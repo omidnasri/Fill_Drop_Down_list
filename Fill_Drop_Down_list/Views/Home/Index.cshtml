@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<br />
+
+<div class="form-group">
+    @Html.DropDownList("province", (SelectList)ViewBag.Province, "انتخاب استان", new { @class = "form-control", initilize_dropdown = "/Home/City", drop = "#city" })
+</div>
+<div class="form-group">
+    <select class="form-control" id="city"></select>
+</div>
+@section scripts
+{
+    <script>
+        $('[initilize-dropdown]').change(function () {
+            var id = $(this).val();
+            var model = $(this).attr('initilize-dropdown');
+            var fill_dropdown = $(this).attr('drop');
+            $(fill_dropdown).empty();
+            $.get(model, { 'id': id }, function (data) {
+                $.each(data, function (index, value) {
+                    $(fill_dropdown).append(new Option(value.Name, value.Id));
+                });
+            });
+        });
+    </script>
+}
